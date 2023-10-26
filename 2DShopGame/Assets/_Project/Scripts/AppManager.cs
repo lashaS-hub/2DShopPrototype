@@ -18,6 +18,7 @@ public class AppManager : MonoBehaviour
     public static PlayerController Player { get; set; }
 
     public static event Action OnLevelStarted;
+    public static event Action<ItemDto> OnItemBought;
 
     private void Awake()
     {

@@ -6,10 +6,9 @@ using UnityEngine;
 public class UIViewManager : MonoBehaviour
 {
     [SerializeField] private List<UIScreenView> _uiViews;
-
     
 
-    private UIScreenView FindView(UIViewType viewType) => _uiViews.FirstOrDefault(x => x.ViewType == viewType);
+    public UIScreenView FindView(UIViewType viewType) => _uiViews.FirstOrDefault(x => x.ViewType == viewType);
 
     public void OpenView(UIViewType viewType)
     {

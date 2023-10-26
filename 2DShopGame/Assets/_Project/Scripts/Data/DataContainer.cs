@@ -9,7 +9,8 @@ public class DataContainer
     public DataContainer()
     {
         // Load items
-        var itemsPath = "Resources/GameData/Items";
+        // var itemsPath = "Resources/GameData/Items";
+        var itemsPath = "GameData/Items";
         var itemsData = Resources.LoadAll<ItemScriptableObject>(itemsPath);
 
         Items = new List<ItemDto>();
