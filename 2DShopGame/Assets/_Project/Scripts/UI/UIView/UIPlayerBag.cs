@@ -8,13 +8,6 @@ public class UIPlayerBag : UIScreenView
 
     private List<UIBagItem> _bagItems = new List<UIBagItem>();
 
-    private bool _isInitialized = false;
-
-
-    private void BuyItem(ItemDto data)
-    {
-
-    }
 
     public void UpdateBag(List<ItemDto> itemsInBag)
     {

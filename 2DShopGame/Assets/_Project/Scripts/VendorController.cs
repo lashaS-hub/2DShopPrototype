@@ -25,12 +25,6 @@ public class VendorController : MonoBehaviour//, IClickable
         }
     }
 
-    private void OnCollisionExit2D(Collision2D other)
-    {
-
-    }
-    // private void OnMouseUp() { }
-
     public void TryOpenShop()
     {
         _playerTransform = AppManager.Player.transform;

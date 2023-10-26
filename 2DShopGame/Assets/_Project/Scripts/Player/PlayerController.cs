@@ -20,6 +20,9 @@ public class PlayerController : MonoBehaviour
     private bool _hasHat;
     private bool _hasOutfit;
 
+    private ItemDto _hat;
+    private ItemDto _outfit;
+
     private void Start()
     {
         _playerMovement = GetComponent<PlayerMovement>();
@@ -52,12 +55,14 @@ public class PlayerController : MonoBehaviour
                 if (_hasHat) return;
                 _hasHat = true;
                 _skinController.SetHat(data.ItemPrefab);
+                _hat = data;
                 EquippedItems.Add(data);
                 break;
             case ItemType.Outfit:
                 if (_hasOutfit) return;
                 _hasOutfit = true;
                 _skinController.SetOutfit(data.ItemPrefab);
+                _outfit = data;
                 EquippedItems.Add(data);
                 break;
         }
@@ -66,12 +71,12 @@ public class PlayerController : MonoBehaviour
     internal void SellItem(ItemDto data)
     {
         Currency += data.Price;
-        if (_hasHat && data.ItemType == ItemType.Hat)
+        if (_hasHat && System.Object.ReferenceEquals(_hat, data) )
         {
             _skinController.RemoveHat();
             _hasHat = false;
         }
-        if (_hasOutfit && data.ItemType == ItemType.Outfit)
+        if (_hasOutfit && System.Object.ReferenceEquals(_outfit, data))
         {
             _skinController.RemoveOutfit();
             _hasOutfit = false;
