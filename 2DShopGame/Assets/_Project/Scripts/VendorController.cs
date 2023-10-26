@@ -22,7 +22,6 @@ public class VendorController : MonoBehaviour//, IClickable
         Debug.Log("OnCollisionEnter2D");
         if (other.transform.CompareTag("Player"))
         {
-            Debug.Log("OnCollisionEnter2D");
             TryOpenShop();
         }
     }

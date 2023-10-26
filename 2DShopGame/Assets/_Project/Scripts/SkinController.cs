@@ -6,43 +6,55 @@ using UnityEngine;
 
 public class SkinController : MonoBehaviour
 {
-    [SerializeField] private Animator _hatAnimator;
-    [SerializeField] private SpriteRenderer _hatSpriterenderer;
-    [SerializeField] private Animator _outfitAnimator;
-    [SerializeField] private SpriteRenderer _outfitSpriterenderer;
+    [SerializeField] private Transform _hatTransform;
+    [SerializeField] private Transform _outfitTransform;
 
-    public void SetHatAnimator(AnimatorController hatAnimatorController)
+    private Animator _hatAnimator;
+    private SpriteRenderer _hatSpriterenderer;
+    private Animator _outfitAnimator;
+    private SpriteRenderer _outfitSpriterenderer;
+
+    public GameObject Hat { get; private set; }
+    public GameObject Outfit { get; private set; }
+
+    public void SetHat(GameObject hatPrefab)
     {
-        _hatAnimator.runtimeAnimatorController = hatAnimatorController;
+        Hat = Instantiate(hatPrefab, Vector2.zero, Quaternion.identity, _hatTransform);
+        _hatAnimator = Hat.GetComponent<Animator>();
+        _hatSpriterenderer = Hat.GetComponent<SpriteRenderer>();
     }
 
-    public void SetOutfitAnimator(AnimatorController outfitAnimatorController)
+    public void SetOutfit(GameObject outfitPrefab)
     {
-        _outfitAnimator.runtimeAnimatorController = outfitAnimatorController;
+        Outfit = Instantiate(outfitPrefab, Vector2.zero, Quaternion.identity, _outfitTransform);
+        _outfitAnimator = Outfit.GetComponent<Animator>();
+        _outfitSpriterenderer = Outfit.GetComponent<SpriteRenderer>();
     }
 
     public void RemoveHat()
     {
-        _hatAnimator.runtimeAnimatorController = null;
-        _hatSpriterenderer.sprite = null;
+        Destroy(Hat);
+        _hatAnimator = null;
+        _hatSpriterenderer = null;
     }
 
     public void RemoveOutfit()
     {
-        _outfitAnimator.runtimeAnimatorController = null;
-        _outfitSpriterenderer.sprite = null;
+        Destroy(Outfit);
+        _outfitAnimator = null;
+        _outfitSpriterenderer = null;
     }
 
     public void SetAnimatorValues(Vector2 moveDirection)
     {
-        if (_hatAnimator.runtimeAnimatorController != null)
+        if (_hatAnimator?.runtimeAnimatorController != null)
         {
             _hatAnimator.SetFloat("Horizontal", moveDirection.x);
             _hatAnimator.SetFloat("Vertical", moveDirection.y);
             _hatAnimator.SetFloat("Speed", moveDirection.sqrMagnitude);
         }
 
-        if (_hatAnimator.runtimeAnimatorController != null)
+        if (_hatAnimator?.runtimeAnimatorController != null)
         {
             _outfitAnimator.SetFloat("Horizontal", moveDirection.x);
             _outfitAnimator.SetFloat("Vertical", moveDirection.y);
