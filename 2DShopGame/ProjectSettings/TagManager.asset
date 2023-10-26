@@ -41,3 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Environment
+    uniqueID: 1608858721
+    locked: 0
+  - name: Character
+    uniqueID: 2503632817
+    locked: 0
+  - name: Outfit
+    uniqueID: 4130009837
+    locked: 0
