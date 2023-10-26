@@ -29,12 +29,20 @@ public class UIPlayerBag : UIScreenView
         {
             var bagItem = Instantiate(_bagItemPrefab, transform);
             _bagItems.Add(bagItem);
-            bagItem.Init(item, Equip);
+            bagItem.Init(item, Equip, Sell);
         }
     }
 
     private void Equip(ItemDto data)
     {
+        AppManager.Player.Equip(data);
+    }
 
+    private void Sell(ItemDto data)
+    {
+        if (AppManager.Player.isInRange)
+        {
+            AppManager.Player.SellItem(data);;
+        }
     }
 }

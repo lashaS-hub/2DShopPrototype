@@ -9,6 +9,7 @@ public class ItemDto
     public ItemType ItemType { get; private set; }
     public Sprite ItemImage { get; private set; }
     public int Price { get; private set; }
+    public bool IsEquipped { get; set; }
 
     public ItemDto(ItemScriptableObject item)
     {

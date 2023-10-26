@@ -19,7 +19,6 @@ public class VendorController : MonoBehaviour//, IClickable
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        Debug.Log("OnCollisionEnter2D");
         if (other.transform.CompareTag("Player"))
         {
             TryOpenShop();
@@ -36,6 +35,7 @@ public class VendorController : MonoBehaviour//, IClickable
     {
         _playerTransform = AppManager.Player.transform;
         if (Vector2.Distance(transform.position, _playerTransform.position) > _minDistance) return;
+        AppManager.Player.isInRange = true;
 
         OpenShop();
     }
@@ -62,6 +62,7 @@ public class VendorController : MonoBehaviour//, IClickable
 
     private void CloseShop()
     {
+        AppManager.Player.isInRange = false;
         AppManager.UIViewManager.CloseView(UIViewType.Shop);
     }
 }

@@ -9,11 +9,16 @@ using System.Linq;
 [RequireComponent(typeof(SkinController))]
 public class PlayerController : MonoBehaviour
 {
+    public int Currency { get; set; } = 100;
+    public bool isInRange { get; set; }
     private PlayerMovement _playerMovement;
     private SkinController _skinController;
 
-    public List<ItemDto> _itemsInBag { get; private set; } = new List<ItemDto>();
-    public List<ItemDto> _equippedItems { get; private set; } = new List<ItemDto>();
+    public List<ItemDto> ItemsInBag { get; private set; } = new List<ItemDto>();
+    public List<ItemDto> EquippedItems { get; private set; } = new List<ItemDto>();
+
+    private bool _hasHat;
+    private bool _hasOutfit;
 
     private void Start()
     {
@@ -25,13 +30,56 @@ public class PlayerController : MonoBehaviour
 
     public void BuyItem(ItemDto data)
     {
-        _itemsInBag.Add(data);
+        if (Currency < data.Price) return;
+        Currency -= data.Price;
+        ItemsInBag.Add(data);
+        var currency = (UICurrency)AppManager.UIViewManager.FindView(UIViewType.Currency);
+        currency.UpdateCurrency();
         UpdateBag();
     }
 
     private void UpdateBag()
     {
         UIPlayerBag playerBag = (UIPlayerBag)AppManager.UIViewManager.FindView(UIViewType.PlayerBag);
-        playerBag.UpdateBag(_itemsInBag);
+        playerBag.UpdateBag(ItemsInBag);
+    }
+
+    public void Equip(ItemDto data)
+    {
+        switch (data.ItemType)
+        {
+            case ItemType.Hat:
+                if (_hasHat) return;
+                _hasHat = true;
+                _skinController.SetHat(data.ItemPrefab);
+                EquippedItems.Add(data);
+                break;
+            case ItemType.Outfit:
+                if (_hasOutfit) return;
+                _hasOutfit = true;
+                _skinController.SetOutfit(data.ItemPrefab);
+                EquippedItems.Add(data);
+                break;
+        }
+    }
+
+    internal void SellItem(ItemDto data)
+    {
+        Currency += data.Price;
+        if (_hasHat && data.ItemType == ItemType.Hat)
+        {
+            _skinController.RemoveHat();
+            _hasHat = false;
+        }
+        if (_hasOutfit && data.ItemType == ItemType.Outfit)
+        {
+            _skinController.RemoveOutfit();
+            _hasOutfit = false;
+        }
+        var currency = (UICurrency)AppManager.UIViewManager.FindView(UIViewType.Currency);
+        currency.UpdateCurrency();
+        ItemsInBag.Remove(data);
+        UpdateBag();
     }
 }
+

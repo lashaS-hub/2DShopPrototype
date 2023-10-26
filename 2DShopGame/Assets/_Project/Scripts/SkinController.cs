@@ -19,14 +19,16 @@ public class SkinController : MonoBehaviour
 
     public void SetHat(GameObject hatPrefab)
     {
-        Hat = Instantiate(hatPrefab, Vector2.zero, Quaternion.identity, _hatTransform);
+        RemoveHat();
+        Hat = Instantiate(hatPrefab, transform);
         _hatAnimator = Hat.GetComponent<Animator>();
         _hatSpriterenderer = Hat.GetComponent<SpriteRenderer>();
     }
 
     public void SetOutfit(GameObject outfitPrefab)
     {
-        Outfit = Instantiate(outfitPrefab, Vector2.zero, Quaternion.identity, _outfitTransform);
+        RemoveOutfit();
+        Outfit = Instantiate(outfitPrefab, transform);
         _outfitAnimator = Outfit.GetComponent<Animator>();
         _outfitSpriterenderer = Outfit.GetComponent<SpriteRenderer>();
     }
@@ -54,7 +56,7 @@ public class SkinController : MonoBehaviour
             _hatAnimator.SetFloat("Speed", moveDirection.sqrMagnitude);
         }
 
-        if (_hatAnimator?.runtimeAnimatorController != null)
+        if (_outfitAnimator?.runtimeAnimatorController != null)
         {
             _outfitAnimator.SetFloat("Horizontal", moveDirection.x);
             _outfitAnimator.SetFloat("Vertical", moveDirection.y);
